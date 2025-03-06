@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
         const verifyToken = async () => {
             if (token) {
                 try {
-                    const response = await axios.post('http://localhost:5000/api/auth/verify', null, {
+                    const response = await axios.post('https://surfers-bakend.onrender.com/api/auth/verify', null, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     setIsAdmin(response.data);
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (username, password) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', {
+            const response = await axios.post('https://surfers-bakend.onrender.com/api/auth/login', {
                 username,
                 password
             });

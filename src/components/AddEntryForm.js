@@ -54,7 +54,7 @@ const AddEntryForm = ({ open, onClose, onSubmitSuccess }) => {
 
         try {
             await axios.post(
-                "http://localhost:5000/api/leaderboard",
+                "https://surfers-bakend.onrender.com/api/leaderboard",
                 formData,
                 {
                     headers: { Authorization: `Bearer ${token}` }

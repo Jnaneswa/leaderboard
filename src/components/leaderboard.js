@@ -37,7 +37,7 @@ function Leaderboard() {
 
     const fetchLeaderboard = async () => {
         try {
-            const response = await axios.get("http://localhost:5000/api/leaderboard");
+            const response = await axios.get("https://surfers-bakend.onrender.com/api/leaderboard");
             setData(response.data);
         } catch (error) {
             console.error("Error fetching leaderboard:", error);
@@ -50,7 +50,7 @@ function Leaderboard() {
 
     const handleDelete = async (entry) => {
         try {
-            await axios.delete(`http://localhost:5000/api/leaderboard/${entry._id}`, {
+            await axios.delete(`https://surfers-bakend.onrender.com/api/leaderboard/${entry._id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             await fetchLeaderboard();
