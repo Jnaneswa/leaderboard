@@ -68,21 +68,21 @@ const AdminLogin = ({ open, onClose }) => {
                 },
             }}
         >
-            <DialogTitle sx={{ 
-                textAlign: 'center', 
+            <DialogTitle sx={{
+                textAlign: 'center',
                 pt: isMobile ? 2 : 3,
-                pb: isMobile ? 1 : 2 
+                pb: isMobile ? 1 : 2
             }}>
-                <AdminPanelSettings 
-                    sx={{ 
-                        fontSize: isMobile ? 32 : 40, 
-                        color: 'primary.main', 
-                        mb: 1 
-                    }} 
+                <AdminPanelSettings
+                    sx={{
+                        fontSize: isMobile ? 32 : 40,
+                        color: 'primary.main',
+                        mb: 1
+                    }}
                 />
-                <Typography 
-                    variant={isMobile ? "h6" : "h5"} 
-                    component="div" 
+                <Typography
+                    variant={isMobile ? "h6" : "h5"}
+                    component="div"
                     fontWeight="bold"
                 >
                     Admin Login
@@ -97,10 +97,10 @@ const AdminLogin = ({ open, onClose }) => {
                         </Alert>
                     )}
 
-                    <Box sx={{ 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        gap: isMobile ? 1.5 : 2 
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: isMobile ? 1.5 : 2
                     }}>
                         <TextField
                             label="Username"
@@ -137,18 +137,18 @@ const AdminLogin = ({ open, onClose }) => {
                     </Box>
                 </DialogContent>
 
-                <DialogActions sx={{ 
-                    p: isMobile ? 2 : 3, 
+                <DialogActions sx={{
+                    p: isMobile ? 2 : 3,
                     justifyContent: 'center',
                     gap: 1
                 }}>
-                    <Button 
-                        onClick={onClose} 
-                        variant="outlined" 
+                    <Button
+                        onClick={onClose}
+                        variant="outlined"
                         size={isMobile ? "small" : "medium"}
-                        sx={{ 
-                            borderRadius: 2, 
-                            px: isMobile ? 2 : 3 
+                        sx={{
+                            borderRadius: 2,
+                            px: isMobile ? 2 : 3
                         }}
                     >
                         Cancel
@@ -157,9 +157,9 @@ const AdminLogin = ({ open, onClose }) => {
                         type="submit"
                         variant="contained"
                         size={isMobile ? "small" : "medium"}
-                        sx={{ 
-                            borderRadius: 2, 
-                            px: isMobile ? 2 : 3 
+                        sx={{
+                            borderRadius: 2,
+                            px: isMobile ? 2 : 3
                         }}
                     >
                         Login
