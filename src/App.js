@@ -14,6 +14,7 @@ import { AdminPanelSettings } from "@mui/icons-material";
 import Leaderboard from "./components/leaderboard";
 import AdminLogin from "./components/AdminLogin";
 import { useAuth } from "./context/AuthContext";
+import { useLocation } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -40,6 +41,8 @@ const theme = createTheme({
 function App() {
   const [loginOpen, setLoginOpen] = useState(false);
   const { isAdmin, logout } = useAuth();
+  const location = useLocation();
+  const showAdminButton = location.pathname.includes("/166692");
   const logoSrc = "https://i.pinimg.com/736x/96/50/ea/9650ea14df62c89f9e94c384843d894a.jpg";
   return (
     <ThemeProvider theme={theme}>
@@ -66,19 +69,21 @@ function App() {
             </Box>
 
             {/* Admin Login/Logout Button */}
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AdminPanelSettings />}
-              onClick={() => (isAdmin ? logout() : setLoginOpen(true))}
-              sx={{
-                minWidth: "120px",
-                height: "40px",
-                marginLeft: "20px",
-              }}
-            >
-              {isAdmin ? "Logout" : "Admin Login"}
-            </Button>
+            {showAdminButton && (
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<AdminPanelSettings />}
+                onClick={() => (isAdmin ? logout() : setLoginOpen(true))}
+                sx={{
+                  minWidth: "120px",
+                  height: "40px",
+                  marginLeft: "20px",
+                }}
+              >
+                {isAdmin ? "Logout" : "Admin Login"}
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
         ;

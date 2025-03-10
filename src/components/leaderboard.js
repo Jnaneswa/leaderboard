@@ -86,6 +86,11 @@ function Leaderboard() {
         }
     };
 
+    const filteredData = data.filter(entry =>
+        entry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        entry.studentId.toString().includes(searchTerm)
+    );
+
     return (
         <Box sx={{ p: isMobile ? 1 : 3 }}>
             <Typography 
@@ -99,6 +104,19 @@ function Leaderboard() {
             >
                 Leaderboard
             </Typography>
+
+            {/* Search Bar */}
+            <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Search by Student ID or Name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                InputProps={{
+                    startAdornment: <SearchIcon sx={{ color: "gray", mr: 1 }} />
+                }}
+                sx={{ mb: 3 }}
+            />
 
             <TableContainer
                 component={Paper}
