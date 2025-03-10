@@ -26,6 +26,9 @@ import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { EmojiEvents, MilitaryTech, WorkspacePremium } from "@mui/icons-material";
 import AddEntryForm from "./AddEntryForm";
 import { useAuth } from "../context/AuthContext";
+import SearchIcon from "@mui/icons-material/Search";
+import { TextField, InputAdornment } from "@mui/material"; // Import TextField
+
 
 function Leaderboard() {
     const [data, setData] = useState([]);
@@ -34,7 +37,7 @@ function Leaderboard() {
     const { isAdmin, token } = useAuth();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+    const [searchTerm, setSearchTerm] = useState("");
     const fetchLeaderboard = async () => {
         try {
             const response = await axios.get("https://surfers-bakend.onrender.com/api/leaderboard");
@@ -43,10 +46,12 @@ function Leaderboard() {
             console.error("Error fetching leaderboard:", error);
         }
     };
-
+    
     useEffect(() => {
         fetchLeaderboard();
-    }, []);
+    }, []); // No need to include fetchLeaderboard in dependencies
+    
+
 
     const handleDelete = async (entry) => {
         try {
@@ -93,11 +98,11 @@ function Leaderboard() {
 
     return (
         <Box sx={{ p: isMobile ? 1 : 3 }}>
-            <Typography 
-                variant={isMobile ? "h5" : "h4"} 
-                sx={{ 
-                    mb: isMobile ? 2 : 3, 
-                    fontWeight: "bold", 
+            <Typography
+                variant={isMobile ? "h5" : "h4"}
+                sx={{
+                    mb: isMobile ? 2 : 3,
+                    fontWeight: "bold",
                     color: "primary.main",
                     textAlign: isMobile ? "center" : "left"
                 }}
@@ -113,10 +118,15 @@ function Leaderboard() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 InputProps={{
-                    startAdornment: <SearchIcon sx={{ color: "gray", mr: 1 }} />
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <SearchIcon sx={{ color: "gray" }} />
+                        </InputAdornment>
+                    ),
                 }}
                 sx={{ mb: 3 }}
             />
+
 
             <TableContainer
                 component={Paper}
@@ -136,43 +146,43 @@ function Leaderboard() {
                                     "linear-gradient(90deg, rgba(100, 100, 255, 0.1) 0%, rgba(150, 150, 255, 0.05) 100%)",
                             }}
                         >
-                            <TableCell sx={{ 
-                                fontWeight: "bold", 
+                            <TableCell sx={{
+                                fontWeight: "bold",
                                 color: "text.primary",
                                 padding: isMobile ? 1 : 2
                             }}>Rank</TableCell>
-                            <TableCell sx={{ 
-                                fontWeight: "bold", 
+                            <TableCell sx={{
+                                fontWeight: "bold",
                                 color: "text.primary",
                                 padding: isMobile ? 1 : 2
                             }}>ID</TableCell>
-                            <TableCell sx={{ 
-                                fontWeight: "bold", 
+                            <TableCell sx={{
+                                fontWeight: "bold",
                                 color: "text.primary",
                                 padding: isMobile ? 1 : 2
                             }}>Name</TableCell>
-                            <TableCell sx={{ 
-                                fontWeight: "bold", 
+                            <TableCell sx={{
+                                fontWeight: "bold",
                                 color: "text.primary",
                                 padding: isMobile ? 1 : 2
                             }}>Score</TableCell>
                             {isAdmin && (
-                                <TableCell 
-                                    align="right" 
-                                    sx={{ 
-                                        fontWeight: "bold", 
+                                <TableCell
+                                    align="right"
+                                    sx={{
+                                        fontWeight: "bold",
                                         color: "text.primary",
                                         padding: isMobile ? 1 : 2
                                     }}
                                 >
-                                   Phone Number
+                                    Phone Number
                                 </TableCell>
                             )}
                             {isAdmin && (
-                                <TableCell 
-                                    align="right" 
-                                    sx={{ 
-                                        fontWeight: "bold", 
+                                <TableCell
+                                    align="right"
+                                    sx={{
+                                        fontWeight: "bold",
                                         color: "text.primary",
                                         padding: isMobile ? 1 : 2
                                     }}
@@ -183,7 +193,7 @@ function Leaderboard() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((entry, index) => (
+                    {filteredData.map((entry, index) => (
                             <TableRow
                                 key={entry._id}
                                 sx={{
@@ -195,7 +205,7 @@ function Leaderboard() {
                                     },
                                 }}
                             >
-                                
+
                                 <TableCell sx={{ padding: isMobile ? 1 : 2 }}>
                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                         {index < 3 ? (
@@ -256,18 +266,18 @@ function Leaderboard() {
                                 </TableCell>
                                 {isAdmin && (
                                     <TableCell sx={{ padding: isMobile ? 1 : 2 }}>
-                                    <Chip
-                                        label={entry.phoneNumber}
-                                        size={isMobile ? "small" : "medium"}
-                                        sx={{
-                                            backgroundColor: index < 3 ? getWinnerStyle(index).background : "transparent",
-                                            color: index < 3 ? getWinnerStyle(index).color : "text.primary",
-                                            fontWeight: "bold",
-                                            border: index >= 3 ? "1px solid" : "none",
-                                            borderColor: index >= 3 ? "primary.main" : "transparent"
-                                        }}
-                                    />
-                                </TableCell>
+                                        <Chip
+                                            label={entry.phoneNumber}
+                                            size={isMobile ? "small" : "medium"}
+                                            sx={{
+                                                backgroundColor: index < 3 ? getWinnerStyle(index).background : "transparent",
+                                                color: index < 3 ? getWinnerStyle(index).color : "text.primary",
+                                                fontWeight: "bold",
+                                                border: index >= 3 ? "1px solid" : "none",
+                                                borderColor: index >= 3 ? "primary.main" : "transparent"
+                                            }}
+                                        />
+                                    </TableCell>
                                 )}
                                 {isAdmin && (
                                     <TableCell align="right" sx={{ padding: isMobile ? 1 : 2 }}>
@@ -302,9 +312,9 @@ function Leaderboard() {
                 </Fab>
             )}
 
-            <AddEntryForm 
-                open={openForm} 
-                onClose={() => setOpenForm(false)} 
+            <AddEntryForm
+                open={openForm}
+                onClose={() => setOpenForm(false)}
                 onSubmitSuccess={fetchLeaderboard}
             />
 
@@ -334,5 +344,5 @@ function Leaderboard() {
         </Box>
     );
 }
-    
+
 export default Leaderboard;
