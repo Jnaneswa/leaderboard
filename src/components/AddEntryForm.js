@@ -15,7 +15,7 @@ import {
     useTheme,
     useMediaQuery,
 } from "@mui/material";
-import { Close as CloseIcon, EmojiEvents, Person, Score } from "@mui/icons-material";
+import { Close as CloseIcon, EmojiEvents, Person, Score, Phone, Badge } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 
@@ -24,7 +24,9 @@ const MotionDialog = motion(Dialog);
 const AddEntryForm = ({ open, onClose, onSubmitSuccess }) => {
     const [formData, setFormData] = useState({
         name: "",
+        studentId: "",
         score: "",
+        phoneNumber: "",
     });
     const [error, setError] = useState("");
     const { token } = useAuth();
@@ -42,13 +44,18 @@ const AddEntryForm = ({ open, onClose, onSubmitSuccess }) => {
         e.preventDefault();
         setError("");
 
-        if (!formData.name || !formData.score) {
-            setError("Please fill in all fields");
+        if (!formData.name || !formData.studentId || !formData.score) {
+            setError("Please fill in all required fields.");
             return;
         }
 
         if (parseInt(formData.score) <= 0) {
-            setError("Score must be greater than 0");
+            setError("Score must be greater than 0.");
+            return;
+        }
+
+        if (formData.phoneNumber && !/^\d+$/.test(formData.phoneNumber)) {
+            setError("Phone number must contain only digits.");
             return;
         }
 
@@ -60,7 +67,7 @@ const AddEntryForm = ({ open, onClose, onSubmitSuccess }) => {
                     headers: { Authorization: `Bearer ${token}` }
                 }
             );
-            setFormData({ name: "", score: "" });
+            setFormData({ name: "", studentId: "", score: "", phoneNumber: "" });
             onSubmitSuccess();
             onClose();
         } catch (error) {
@@ -167,6 +174,23 @@ const AddEntryForm = ({ open, onClose, onSubmitSuccess }) => {
                                         }}
                                     />
                                     <TextField
+                                        label="Student ID"
+                                        name="studentId"
+                                        value={formData.studentId}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        required
+                                        variant="outlined"
+                                        size={isMobile ? "small" : "medium"}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Badge color="primary" />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                    <TextField
                                         label="Score"
                                         name="score"
                                         type="number"
@@ -181,6 +205,24 @@ const AddEntryForm = ({ open, onClose, onSubmitSuccess }) => {
                                             startAdornment: (
                                                 <InputAdornment position="start">
                                                     <Score color="primary" />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                    <TextField
+                                        label="Phone Number (Optional)"
+                                        name="phoneNumber"
+                                        type="text"
+                                        value={formData.phoneNumber}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        variant="outlined"
+                                        size={isMobile ? "small" : "medium"}
+                                        inputProps={{ maxLength: 15 }}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Phone color="primary" />
                                                 </InputAdornment>
                                             ),
                                         }}

@@ -127,12 +127,29 @@ function Leaderboard() {
                                 fontWeight: "bold", 
                                 color: "text.primary",
                                 padding: isMobile ? 1 : 2
+                            }}>ID</TableCell>
+                            <TableCell sx={{ 
+                                fontWeight: "bold", 
+                                color: "text.primary",
+                                padding: isMobile ? 1 : 2
                             }}>Name</TableCell>
                             <TableCell sx={{ 
                                 fontWeight: "bold", 
                                 color: "text.primary",
                                 padding: isMobile ? 1 : 2
                             }}>Score</TableCell>
+                            {isAdmin && (
+                                <TableCell 
+                                    align="right" 
+                                    sx={{ 
+                                        fontWeight: "bold", 
+                                        color: "text.primary",
+                                        padding: isMobile ? 1 : 2
+                                    }}
+                                >
+                                   Phone Number
+                                </TableCell>
+                            )}
                             {isAdmin && (
                                 <TableCell 
                                     align="right" 
@@ -160,6 +177,7 @@ function Leaderboard() {
                                     },
                                 }}
                             >
+                                
                                 <TableCell sx={{ padding: isMobile ? 1 : 2 }}>
                                     <Box sx={{ display: "flex", alignItems: "center" }}>
                                         {index < 3 ? (
@@ -191,6 +209,17 @@ function Leaderboard() {
                                             fontSize: isMobile ? "0.875rem" : "1rem"
                                         }}
                                     >
+                                        {entry.studentId}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell sx={{ padding: isMobile ? 1 : 2 }}>
+                                    <Typography
+                                        sx={{
+                                            fontWeight: "medium",
+                                            color: index < 3 ? getWinnerStyle(index).color : "inherit",
+                                            fontSize: isMobile ? "0.875rem" : "1rem"
+                                        }}
+                                    >
                                         {entry.name}
                                     </Typography>
                                 </TableCell>
@@ -207,6 +236,21 @@ function Leaderboard() {
                                         }}
                                     />
                                 </TableCell>
+                                {isAdmin && (
+                                    <TableCell sx={{ padding: isMobile ? 1 : 2 }}>
+                                    <Chip
+                                        label={entry.phoneNumber}
+                                        size={isMobile ? "small" : "medium"}
+                                        sx={{
+                                            backgroundColor: index < 3 ? getWinnerStyle(index).background : "transparent",
+                                            color: index < 3 ? getWinnerStyle(index).color : "text.primary",
+                                            fontWeight: "bold",
+                                            border: index >= 3 ? "1px solid" : "none",
+                                            borderColor: index >= 3 ? "primary.main" : "transparent"
+                                        }}
+                                    />
+                                </TableCell>
+                                )}
                                 {isAdmin && (
                                     <TableCell align="right" sx={{ padding: isMobile ? 1 : 2 }}>
                                         <IconButton
@@ -272,5 +316,5 @@ function Leaderboard() {
         </Box>
     );
 }
-
+    
 export default Leaderboard;
