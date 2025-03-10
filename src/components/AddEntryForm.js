@@ -43,39 +43,44 @@ const AddEntryForm = ({ open, onClose, onSubmitSuccess }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-
-        if (!formData.name || !formData.studentId || !formData.score) {
-            setError("Please fill in all required fields.");
+    
+        if (!formData.name.trim() || !formData.studentId.trim() || !formData.score.trim()) {
+            setError("All required fields must be filled.");
             return;
         }
-
-        if (parseInt(formData.score) <= 0) {
-            setError("Score must be greater than 0.");
+    
+    
+        if (isNaN(Number(formData.score)) || Number(formData.score) <= 0) {
+            setError("Score must be a positive number.");
             return;
         }
-
+    
         if (formData.phoneNumber && !/^\d+$/.test(formData.phoneNumber)) {
             setError("Phone number must contain only digits.");
             return;
         }
-
+    
         try {
+            console.log("Submitting data:", formData);
             await axios.post(
                 "https://surfers-bakend.onrender.com/api/leaderboard",
                 formData,
-                {
-                    headers: { Authorization: `Bearer ${token}` }
-                }
+                { headers: { Authorization: `Bearer ${token}` } }
             );
             setFormData({ name: "", studentId: "", score: "", phoneNumber: "" });
             onSubmitSuccess();
             onClose();
         } catch (error) {
-            setError("Error adding entry. Please try again.");
             console.error("Error adding entry:", error);
+            if (error.response) {
+                console.error("Server Response:", error.response.data);
+                setError(error.response.data.message || "Error adding entry. Please try again.");
+            } else {
+                setError("Error adding entry. Please check your network and try again.");
+            }
         }
     };
-
+    
     return (
         <AnimatePresence>
             {open && (
